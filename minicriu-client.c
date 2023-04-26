@@ -57,13 +57,13 @@ struct savedctx {
 };
 
 #define SAVE_CTX(ctx) do { \
-	asm volatile("rdfsbase %0" : "=r" (ctx.fsbase) : : "memory"); \
-	asm volatile("rdgsbase %0" : "=r" (ctx.gsbase) : : "memory"); \
+	__asm__ volatile("rdfsbase %0" : "=r" (ctx.fsbase) : : "memory"); \
+	__asm__ volatile("rdgsbase %0" : "=r" (ctx.gsbase) : : "memory"); \
 } while(0)
 
 #define RESTORE_CTX(ctx) do { \
-	asm volatile("wrfsbase %0" : : "r" (ctx.fsbase) : "memory"); \
-	asm volatile("wrgsbase %0" : : "r" (ctx.gsbase) : "memory"); \
+	__asm__ volatile("wrfsbase %0" : : "r" (ctx.fsbase) : "memory"); \
+	__asm__ volatile("wrgsbase %0" : : "r" (ctx.gsbase) : "memory"); \
 } while(0)
 
 static pid_t* gettid_ptr(pthread_t thr) {
@@ -274,7 +274,7 @@ static void mc_sighnd(int sig) {
 		// storage is not yet initialized.
 		// syscall(SYS_futex, &mc_futex_restore, FUTEX_WAIT, 0);
 		unsigned long ret;
-		asm volatile (
+		__asm__ volatile (
 			"syscall\n\t"
 			: "=a"(ret)
 			: "a"(SYS_futex),

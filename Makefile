@@ -22,7 +22,7 @@
 #  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #  POSSIBILITY OF SUCH DAMAGE.
 
-CFLAGS = -g -MMD -MT $@ -MF $@.d
+CFLAGS = -g -MMD -MT $@ -MF $@.d -std=c99
 ASFLAGS = $(CFLAGS)
 
 all : minicriu libminicriu-client.a
